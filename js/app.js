@@ -229,3 +229,117 @@ function llenar_tablero() {
 	agregar_even();
 	val_set();
 }
+
+function val_set() {
+	validar_colm();
+	validar_fila();
+	if ($('img.delete').length !== 0) {
+		borrar_galleta_animacion();
+	}
+}
+
+function agregar_even() {
+	$('img').draggable({
+		containment: '.panel-tablero',
+		droppable: 'img',
+		revert: true,
+		revertDuration: 500,
+		grid: [100, 100],
+		zIndex: 10,
+		drag: constrainCandyMovement
+	});
+	$('img').droppable({
+		drop: Swap_galleta
+	});
+	aplicar_drag();
+
+	
+}
+
+function quitar_drag() {
+	$('img').draggable('disable');
+	$('img').droppable('disable');
+}
+
+function aplicar_drag() {
+	$('img').draggable('enable');
+	$('img').droppable('enable');
+}
+
+function constrainCandyMovement(event, candyDrag) {
+	candyDrag.position.top = Math.min(100, candyDrag.position.top);
+	candyDrag.position.bottom = Math.min(100, candyDrag.position.bottom);
+	candyDrag.position.left = Math.min(100, candyDrag.position.left);
+	candyDrag.position.right = Math.min(100, candyDrag.position.right);
+}
+
+
+
+function Swap_galleta(event, candyDrag) {
+	var candyDrag = $(candyDrag.draggable);
+	var dragSrc = candyDrag.attr('src');
+	var candyDrop = $(this);
+	var dropSrc = candyDrop.attr('src');
+	candyDrag.attr('src', dropSrc);
+	candyDrop.attr('src', dragSrc);
+
+	setTimeout(function () {
+		verificar_tablero();
+		if ($('img.delete').length === 0) {
+			candyDrag.attr('src', dragSrc);
+			candyDrop.attr('src', dropSrc);
+		} else {
+			actualizar_movi();
+		}
+	}, 500);
+
+}
+
+function verificar_tablero_temp(result) {
+	if (result) {
+		verificar_tablero();
+	}
+}
+
+function actualizar_movi() {
+	var actualValue = Number($('#movimientos-text').text());
+	var result = actualValue += 1;
+	$('#movimientos-text').text(result);
+}
+
+
+
+function error_sw(error) {
+	console.log(error);
+}
+
+function borrar_galleta_animacion() {
+	quitar_drag();
+	$('img.delete').effect('pulsate', 400);
+	$('img.delete').animate({
+			opacity: '0'
+		}, {
+			duration: 300
+		})
+		.animate({
+			opacity: '0'
+		}, {
+			duration: 400,
+			complete: function () {
+				borrar_galleta()
+					.then(verificar_tablero_temp)
+					.catch(error_sw);
+			},
+			queue: true
+		});
+}
+
+function borrar_galleta() {
+	return new Promise(function (resolve, reject) {
+		if ($('img.delete').remove()) {
+			resolve(true);
+		} else {
+			reject('No se puede eliminar Galleta!!');
+		}
+	});
+}
