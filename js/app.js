@@ -343,3 +343,10 @@ function borrar_galleta() {
 		}
 	});
 }
+
+//FIN JUEGO
+function finalizar_juego() {
+	$('div.panel-tablero, div.time').hide('Slide');
+	$('h1.main-titulo').addClass('title-over').text('GAME OVER!')
+	$('div.score, div.moves, div.panel-score').width('100%');
+}
