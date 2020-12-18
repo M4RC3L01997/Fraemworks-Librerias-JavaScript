@@ -65,3 +65,55 @@ function galleta_col(index) {
 	var candyColumn = giveCandyArrays('columns');
 	return candyColumn[index];
 }
+
+//VALIDAR COLUMNA
+
+function validar_colm() {
+	for (var j = 0; j < 7; j++) {
+		var counter = 0;
+		var candyPosition = [];
+		var extraCandyPosition = [];
+		var candyColumn = galleta_col(j);
+		var comparisonValue = candyColumn.eq(0);
+		var gap = false;
+		for (var i = 1; i < candyColumn.length; i++) {
+			var srcComparison = comparisonValue.attr('src');
+			var srcCandy = candyColumn.eq(i).attr('src');
+
+			if (srcComparison != srcCandy) {
+				if (candyPosition.length >= 3) {
+					gap = true;
+				} else {
+					candyPosition = [];
+				}
+				counter = 0;
+			} else {
+				if (counter == 0) {
+					if (!gap) {
+						candyPosition.push(i - 1);
+					} else {
+						extraCandyPosition.push(i - 1);
+					}
+				}
+				if (!gap) {
+					candyPosition.push(i);
+				} else {
+					extraCandyPosition.push(i);
+				}
+				counter += 1;
+			}
+			comparisonValue = candyColumn.eq(i);
+		}
+		if (extraCandyPosition.length > 2) {
+			candyPosition = $.merge(candyPosition, extraCandyPosition);
+		}
+		if (candyPosition.length <= 2) {
+			candyPosition = [];
+		}
+		candyCount = candyPosition.length;
+		if (candyCount >= 3) {
+			borrar_galleta_horz(candyPosition, candyColumn);
+			puntuacion(candyCount);
+		}
+	}
+}
