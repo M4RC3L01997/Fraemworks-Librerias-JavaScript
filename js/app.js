@@ -203,3 +203,8 @@ function puntuacion(candyCount) {
 	}
 	$('#score-text').text(score);
 }
+
+//VERIFICAR TABLERO
+function verificar_tablero() {
+	llenar_tablero();
+}
