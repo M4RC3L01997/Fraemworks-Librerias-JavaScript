@@ -208,3 +208,24 @@ function puntuacion(candyCount) {
 function verificar_tablero() {
 	llenar_tablero();
 }
+
+//LLENAR TABLERO
+function llenar_tablero() {
+	var top = 6;
+	var column = $('[class^="col-"]');
+
+	column.each(function () {
+		var candys = $(this).children().length;
+		var agrega = top - candys;
+		for (var i = 0; i < agrega; i++) {
+			var candyType = getRandomInt(1, 5);
+			if (i === 0 && candys < 1) {
+				$(this).append('<img src="image/' + candyType + '.png" class="element"></img>');
+			} else {
+				$(this).find('img:eq(0)').before('<img src="image/' + candyType + '.png" class="element"></img>');
+			}
+		}
+	});
+	agregar_even();
+	val_set();
+}
