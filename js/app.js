@@ -175,3 +175,9 @@ function validar_fila() {
 		}
 	}
 }
+
+function borrar_hori(candyPosition, candyRow) {
+	for (var i = 0; i < candyPosition.length; i++) {
+		candyRow[candyPosition[i]].addClass('delete');
+	}
+}
