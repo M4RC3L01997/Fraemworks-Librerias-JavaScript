@@ -350,3 +350,27 @@ function finalizar_juego() {
 	$('h1.main-titulo').addClass('title-over').text('GAME OVER!')
 	$('div.score, div.moves, div.panel-score').width('100%');
 }
+
+//INICIAR JUEGO
+function iniciar_juego() {
+	cambiar_logo('h1.main-titulo');
+	$('.btn-reinicio').click(function () {
+	if ($(this).text() === 'Reiniciar') {
+		location.reload(true);			
+	}
+	$('#timer').delay(55000).effect('pulsate', 5000);verificar_tablero();
+	$(this).text('Reiniciar');
+	$('#timer').html("");
+	$('#timer').startTimer({
+		
+		onComplete: finalizar_juego
+		
+	});
+});
+}
+
+$(function () {
+iniciar_juego();
+	
+
+});
