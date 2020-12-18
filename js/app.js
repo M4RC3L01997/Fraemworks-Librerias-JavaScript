@@ -181,3 +181,25 @@ function borrar_hori(candyPosition, candyRow) {
 		candyRow[candyPosition[i]].addClass('delete');
 	}
 }
+
+///PUNTUACION
+function puntuacion(candyCount) {
+	var score = Number($('#score-text').text());
+	switch (candyCount) {
+		case 3:
+			score += 25;
+			break;
+		case 4:
+			score += 50;
+			break;
+		case 5:
+			score += 75;
+			break;
+		case 6:
+			score += 100;
+			break;
+		case 7:
+			score += 200;
+	}
+	$('#score-text').text(score);
+}
