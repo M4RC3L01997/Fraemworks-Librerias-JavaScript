@@ -117,3 +117,10 @@ function validar_colm() {
 		}
 	}
 }
+
+//BORRAR GALLETA HORIZONTAL
+function borrar_galleta_horz(candyPosition, candyColumn) {
+	for (var i = 0; i < candyPosition.length; i++) {
+		candyColumn.eq(candyPosition[i]).addClass('delete');
+	}
+}
